@@ -14,7 +14,7 @@ app.use(cors());
 var server = app.listen(process.env.PORT || 8080, function () {
     var host = server.address().address;
     var port = server.address().port;
-    console.log("Example app listening at http://%s:%s", host, port);
+    console.log("Example app listening at http://localhost", host, port);
 });
 
 const db = mysql.createConnection({
@@ -36,6 +36,7 @@ app.get("/data", (req, res) => {
         res.send(result);
     });
 });
+
 app.post("/data", (req, res) => {
     var sql =
         "INSERT INTO login_food.user (username, password) VALUES ('" +
@@ -51,5 +52,49 @@ app.post("/data", (req, res) => {
             username: req.body.username,
             password: req.body.password,
         });
+    });
+});
+
+app.post("/login", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    var sql =
+        "SELECT * FROM login_food.user WHERE username = ? AND password = ?";
+    db.query(sql, [username, password], (err, result) => {
+        if (err) throw err;
+        // console.log(result);
+        if (result.length > 0) {
+            if (res) {
+                // console.log("success");
+                res.send({
+                    message: "success",
+                    username: req.body.username,
+                    password: req.body.password,
+                });
+            } else {
+                res.send({ message: "Wrong password" });
+            }
+        } else {
+            res.send({ message: "Wrong username" });
+        }
+    });
+});
+
+app.post("/register", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    var sql = "INSERT INTO login_food.user (username, password) VALUES (?,?)";
+    db.query(sql, [username, password], (err) => {
+        if (err) throw err;
+        console.log(result);
+        if (result)
+            res.send({
+                message: "success",
+                username: req.body.username,
+                password: req.body.password,
+            });
+        else {
+            res.send({ message: "Wrong username" });
+        }
     });
 });
