@@ -98,3 +98,48 @@ app.post("/register", (req, res) => {
         }
     });
 });
+
+app.get("/datasanpham", (req, res) => {
+    var sql = "SELECT * FROM login_food.sanpham";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
+app.get("/datakhuyenmai", (req, res) => {
+    var sql = "SELECT * FROM login_food.khuyenmai";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
+app.get("/dataorder", (req, res) => {
+    var sql = "SELECT * FROM login_food.order";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
+app.get("/dataorderhistory", (req, res) => {
+    var sql = "SELECT * FROM login_food.orderhistory";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
+
+app.get("/datactsp", (req, res) => {
+    var sql = "SELECT * FROM login_food.ctsp";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log(result);
+        res.send(result);
+    });
+});
